@@ -1,0 +1,28 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "ProductGrpcService";
+
+package product;
+
+service Product {
+  rpc Create (ProductRequest) returns (ProductResponse);
+  rpc List (Empty) returns (ListProducts);
+}
+
+message Empty{}
+
+message ProductRequest {
+  string name = 1;
+  double price = 2;
+}
+
+// The response message containing the greetings.
+message ProductResponse {
+  int32 id = 1;
+  string name = 2;
+  double price = 3;
+}
+
+message ListProducts {
+  repeated ProductResponse products = 1;
+}
