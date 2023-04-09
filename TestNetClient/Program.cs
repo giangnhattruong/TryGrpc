@@ -2,7 +2,13 @@
 using Newtonsoft.Json;
 using ProductGrpcService;
 
-using var channel = GrpcChannel.ForAddress("https://localhost:5001");
+using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions()
+{
+    HttpClient = new HttpClient(new HttpClientHandler()
+    {
+        
+    })
+});
 var client = new Product.ProductClient(channel);
 
 Console.WriteLine("Enter product name:");
@@ -18,4 +24,4 @@ var request = new ProductRequest()
 var reply1 = await client.CreateAsync(request);
 var reply2 = await client.ListAsync(new Empty());
 
-Console.WriteLine(reply2.Products.Count);
+Console.WriteLine(String.Join(", ", reply2.Products.Select(p => p.Name)));
